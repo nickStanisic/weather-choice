@@ -17,6 +17,5 @@ def index():
         endTime = request.form['endTime']
         startDate = request.form['startDate']
         endDate = request.form['endDate'] 
-        data = "hello"
-        #data = calculatePoints(lowTemp, highTemp, startTime, endTime, startDate, endDate)
+        data = calculatePoints(lowTemp, highTemp, startTime, endTime, startDate, endDate)
     return render_template('index.html', data=data)
