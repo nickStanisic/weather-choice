@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 from flask import Flask, request, render_template
-from weather import calculatePoints
 
 app = Flask(__name__)
 
@@ -17,5 +16,6 @@ def index():
         endTime = request.form['endTime']
         startDate = request.form['startDate']
         endDate = request.form['endDate'] 
-        data = calculatePoints(lowTemp, highTemp, startTime, endTime, startDate, endDate)
+        data = "hello"
+        #data = calculatePoints(lowTemp, highTemp, startTime, endTime, startDate, endDate)
     return render_template('index.html', data=data)
