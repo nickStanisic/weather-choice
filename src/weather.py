@@ -22,7 +22,7 @@ def get_temperatures_for_colorado(start, end, lowTemp, highTemp):
             withinRange = True
             for k in range(start, end):
                 currentTemp = data.get('list')[k].get('main').get('temp')
-                if currentTemp < float(lowTemp) or currentTemp > float(highTemp):
+                if currentTemp < float(int(lowTemp)) or currentTemp > float(int(highTemp)):
                     withinRange = False
             temps_for_lat.append(withinRange)
         colorado_temperature_list.append(temps_for_lat)
