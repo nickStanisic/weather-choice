@@ -23,56 +23,21 @@
                     </div> 
                 </div>
             </div>
-            <div class="container">
-                <div class="row justify-content-center align-items-center p-2 border">
-                    <label for="colFormLabelLg" class="col-lg-3 col-form-label col-form-label-lg">Start Time</label>
-                    <div class="col-lg-3">
-                        <select class="form-select" aria-label="Default select example" name="startTime">
-                            <option value="0">12:00am</option>
-                            <option value="1">3:00am</option>
-                            <option value="2">6:00am</option>
-                            <option value="3">9:00am</option>
-                            <option value="4">12:00pm</option>
-                            <option value="5">3:00pm</option>
-                            <option value="6">6:00pm</option>
-                            <option value="7">9:00pm</option>
-                        </select>
-                    </div>
-                    <label for="colFormLabelLg" class="col-lg-3 col-form-label col-form-label-lg">End Time</label>
-                    <div class="col-lg-3">
-                        <select class="form-select" aria-label="Default select example" name="endTime">
-                            <option value="0">12:00am</option>
-                            <option value="1">3:00am</option>
-                            <option value="2">6:00am</option>
-                            <option value="3">9:00am</option>
-                            <option value="4">12:00pm</option>
-                            <option value="5">3:00pm</option>
-                            <option value="6">6:00pm</option>
-                            <option value="7">9:00pm</option>
-                        </select>
-                    </div>
-                        <label for="colFormLabelLg" class="col-lg-3 col-form-label col-form-label-lg">Start Date</label>
-                    <div class="col-lg-3">   
-                        <select class="form-select" aria-label="Default select example" name="startDate">
-                            <option value="0">today</option>
-                            <option value="8">tomorrow</option>
-                            <option value="16">2 days</option>
-                            <option value="24">3 days</option>
-                            <option value="32">4 days</option>
-                        </select>
-                    </div>
-                    <label for="colFormLabelLg" class="col-lg-3 col-form-label col-form-label-lg">End Date</label>
-                    <div class="col-lg-3">
-                        <select class="form-select" aria-label="Default select example" name="endDate">
-                            <option value="0">today</option>
-                            <option value="8">tomorrow</option>
-                            <option value="16">2 days</option>
-                            <option value="24">3 days</option>
-                            <option value="32">4 days</option>
-                        </select>
-                    </div>
-                </div>
-                
+            <div class="form-group">
+                <label for="date">Start Date</label>
+                {{ form.startDate(class="form-control") }}
+            </div>
+            <div class="form-group">
+                <label for="time">Start Time</label>
+                {{ form.startTime(class="form-control") }}
+            </div>
+            <div class="form-group">
+                <label for="date">End Date</label>
+                {{ form.endDate(class="form-control") }}
+            </div>
+            <div class="form-group">
+                <label for="time">End Time</label>
+                {{ form.endTime(class="form-control") }}
             </div>
             <button>Find</button>
         </form>
