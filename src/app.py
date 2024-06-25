@@ -15,6 +15,11 @@ from flask_migrate import Migrate
 load_dotenv()
 api_key = os.getenv('API_KEY')
 database_url = os.getenv('DATABASE_URI')
+min_lat = 41
+lat_increases = 5
+min_long = -109
+long_increases = 7
+units = "imperial"
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://uav30uida8mg8g:p383a3af79ed9fde44f7ff64877846d194765dfde87defe46fa15581999267d6e@c3nv2ev86aje4j.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com:5432/d71dlt6vcpgav8'
@@ -75,7 +80,7 @@ def index():
         endTime = form.endTime.data
         endTimeStamp = datetime.strptime(f'{endDate} {endTime}', '%Y-%m-%d %H:%M').timestamp()
         startTimeStamp = datetime.strptime(f'{startDate} {startTime}', '%Y-%m-%d %H:%M').timestamp()
-        data = calculatePoints(lowTemp, highTemp, startTimeStamp, endTimeStamp, get_all_weather_data())
+        data = calculatePoints(min_lat, lat_increases, min_long, long_increases, lowTemp, highTemp, startTimeStamp, endTimeStamp, get_all_weather_data())
         map_path = create_map(lowTemp, highTemp, data)
         return render_template('index.html', data=data, form=form, map_url=url_for('static', filename='map.png'), map_path=map_path)
 @app.route('/weather', methods=['GET'])
@@ -86,12 +91,6 @@ def get_weather_data():
 
 def fetch_weather_data():
     """Function to fetch weather data from an API and store it in the database."""
-    min_lat = 41
-    lat_increases = 5
-    min_long = -109
-    long_increases = 7
-    units = "imperial"
-
     for i in range (min_lat,min_lat - lat_increases, -1):
         for j in range (min_long,min_long + long_increases, 1):
             response = requests.get(f'http://api.openweathermap.org/data/2.5/forecast?lat={i}&lon={j}&appid={api_key}&units={units}')

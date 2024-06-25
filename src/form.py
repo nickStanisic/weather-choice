@@ -9,7 +9,7 @@ class DateTimeForm(Form):
 
 def generate_choices():
     today = datetime.today()
-    choices = [(today + timedelta(days=i)).strftime('%Y-%m-%d') for i in range(5)]
+    choices = [(today + timedelta(days=i+1)).strftime('%Y-%m-%d') for i in range(4)]
     return [(date, date) for date in choices]
 
 def generate_time_choices():
