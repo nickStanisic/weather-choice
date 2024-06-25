@@ -21,6 +21,8 @@ def checkTemperature(currentTemp, lowTemp, highTemp):
 
 def calculatePoints(min_lat, lat_increases, min_long, long_increases, lowTemp, highTemp, startTime, endTime, json_data):
     #range determined by date/time
+    if startTime > endTime:
+        return None
     startIndex = 0
     while startTime >= json_data[startIndex].get('dt'):
         startIndex += 1
