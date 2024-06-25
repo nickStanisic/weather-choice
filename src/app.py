@@ -1,24 +1,27 @@
 #!/usr/bin/env python3
 
 from flask import Flask, request, render_template, jsonify, url_for
-from src.weather import calculatePoints
-from src.form import DateTimeForm, generate_choices, generate_time_choices
-from src.map import create_map
+from weather import calculatePoints
+from form import DateTimeForm, generate_choices, generate_time_choices
+from map import create_map
 from flask_sqlalchemy import SQLAlchemy
 import requests
 import os
 from dotenv import load_dotenv
 from datetime import datetime
+from flask_migrate import Migrate
+
 
 load_dotenv()
 api_key = os.getenv('API_KEY')
 database_url = os.getenv('DATABASE_URI')
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = database_url
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://uav30uida8mg8g:p383a3af79ed9fde44f7ff64877846d194765dfde87defe46fa15581999267d6e@c3nv2ev86aje4j.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com:5432/d71dlt6vcpgav8'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 
 class Weather(db.Model):
     id = db.Column(db.Integer, primary_key = True)
