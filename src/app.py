@@ -83,11 +83,17 @@ def index():
         data = calculatePoints(min_lat, lat_increases, min_long, long_increases, lowTemp, highTemp, startTimeStamp, endTimeStamp, get_all_weather_data())
         map_path = create_map(lowTemp, highTemp, data)
         return render_template('index.html', data=data, form=form, map_url=url_for('static', filename='map.png'), map_path=map_path)
+    
 @app.route('/weather', methods=['GET'])
 def get_weather_data():
     return jsonify(get_all_weather_data())
     
-
+@app.route('/health', methods=['GET'])
+def healthCheck():
+    try:
+        return jsonify({"status": "healthy"}), 200
+    except Exception as e:
+        return jsonify({"status": "unhealthy", "error": str(e)}), 500
 
 def fetch_weather_data():
     """Function to fetch weather data from an API and store it in the database."""
