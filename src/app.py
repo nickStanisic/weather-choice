@@ -15,7 +15,7 @@ api_key = os.getenv('API_KEY')
 database_url = os.getenv('DATABASE_URI')
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(database_url, 'sqlite:///local.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(database_url)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
