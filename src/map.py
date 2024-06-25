@@ -9,7 +9,7 @@ import os
 
 def create_map(lowTemp, highTemp, info):
     
-    colorado = gpd.read_file('../Shapefiles/tl_rd22_08_tract.shp')
+    colorado = gpd.read_file('./Shapefiles/tl_rd22_08_tract.shp')
     
     lat = []
     lon = []
