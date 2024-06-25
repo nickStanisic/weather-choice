@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 
 from flask import Flask, request, render_template, jsonify, url_for
-from src.weather import calculatePoints
+from src.dataAnalyzer.weather import calculatePoints
 from src.form import DateTimeForm, generate_choices, generate_time_choices
 from src.map import create_map
 from flask_sqlalchemy import SQLAlchemy
-import requests
+from src.dataCollector import callApi
 import os
 from dotenv import load_dotenv
 from datetime import datetime
@@ -93,7 +93,7 @@ def fetch_weather_data():
     """Function to fetch weather data from an API and store it in the database."""
     for i in range (min_lat,min_lat - lat_increases, -1):
         for j in range (min_long,min_long + long_increases, 1):
-            response = requests.get(f'http://api.openweathermap.org/data/2.5/forecast?lat={i}&lon={j}&appid={api_key}&units={units}')
+            response = callApi(i,j,api_key,units)
             if response.status_code == 200:
                 data = response.json()
                 for k in range (0,data.get('cnt')):
