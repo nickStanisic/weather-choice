@@ -23,11 +23,3 @@ jobs:
         run: |
           pip install pytest pytest-cov
           pytest
-
-      - name: Deploy to Heroku
-        if: github.ref == 'refs/heads/main' && success()
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: |
-          git remote add heroku https://git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
-          git push heroku main
