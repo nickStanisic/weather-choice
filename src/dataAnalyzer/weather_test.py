@@ -1,6 +1,6 @@
 import unittest
-from dataAnalyzer.weather import checkTemperature, get_temperatures_for_colorado, calculatePoints
-from dataAnalyzer.mockJsonData import getJsonData
+from weather import checkTemperature, get_temperatures_for_colorado, calculatePoints
+from mockJsonData import getJsonData
 
 class WeatherTestCase(unittest.TestCase):
     def test_checkTemperature_within_range(self):
