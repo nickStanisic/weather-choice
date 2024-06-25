@@ -1,15 +1,14 @@
 #!/usr/bin/env python3
 
 from flask import Flask, request, render_template, jsonify, url_for
-from weather import calculatePoints
-from form import DateTimeForm, generate_choices, generate_time_choices
-from map import create_map
+from src.weather import calculatePoints
+from src.form import DateTimeForm, generate_choices, generate_time_choices
+from src.map import create_map
 from flask_sqlalchemy import SQLAlchemy
 import requests
 import os
 from dotenv import load_dotenv
 from datetime import datetime
-import time
 
 load_dotenv()
 api_key = os.getenv('API_KEY')
