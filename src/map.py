@@ -69,7 +69,7 @@ def create_map(lowTemp, highTemp, info):
     plt.xlabel('Longitude')
     plt.ylabel('Latitude')
 
-    map_path = os.path.join('static', 'map.png')
+    map_path = './src/static/map.png'
     plt.savefig(map_path)
     plt.close(fig)
     return map_path
