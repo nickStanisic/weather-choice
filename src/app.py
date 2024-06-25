@@ -10,6 +10,7 @@ import os
 from dotenv import load_dotenv
 from datetime import datetime
 from flask_migrate import Migrate
+import psycopg2
 
 
 load_dotenv()
