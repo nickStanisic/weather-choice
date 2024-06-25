@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 
-from flask import Flask, request, render_template, jsonify
-from src.weather import calculatePoints
-from src.form import DateTimeForm, generate_choices, generate_time_choices
+from flask import Flask, request, render_template, jsonify, url_for
+from weather import calculatePoints
+from form import DateTimeForm, generate_choices, generate_time_choices
+from map import create_map
 from flask_sqlalchemy import SQLAlchemy
 import requests
 import os
 from dotenv import load_dotenv
 from datetime import datetime
+import time
 
 load_dotenv()
 api_key = os.getenv('API_KEY')
@@ -38,6 +40,7 @@ def create_tables():
 @app.route("/", methods=['GET','POST'])
 def index():
     data = None
+
     now = datetime.now()
     time = datetime.timestamp(now)
 
@@ -47,11 +50,10 @@ def index():
         first_weather = Weather.query.first()
         if first_weather:
             timestamp = first_weather.dt
-            print(timestamp)
-            if timestamp + 86400 < time:
-                numRows = db.session.query(Weather).delete()
+            print(timestamp, time)
+            if timestamp + 10800 < time:
+                db.session.query(Weather).delete()
                 db.session.commit()
-                print(numRows)
                 fetch_weather_data()
 
     form = DateTimeForm(request.form)
@@ -59,6 +61,9 @@ def index():
     form.endTime.choices = generate_time_choices()
     form.startDate.choices = generate_choices()
     form.startTime.choices = generate_time_choices()
+
+    if request.method == "GET":
+        return render_template('index.html', form=form)
 
     if request.method == 'POST':
         lowTemp = request.form['lowTemp']
@@ -69,10 +74,9 @@ def index():
         endTime = form.endTime.data
         endTimeStamp = datetime.strptime(f'{endDate} {endTime}', '%Y-%m-%d %H:%M').timestamp()
         startTimeStamp = datetime.strptime(f'{startDate} {startTime}', '%Y-%m-%d %H:%M').timestamp()
-        print(startTimeStamp, endTimeStamp)
         data = calculatePoints(lowTemp, highTemp, startTimeStamp, endTimeStamp, get_all_weather_data())
-    return render_template('index.html', data=data, form=form)
-    
+        map_path = create_map(lowTemp, highTemp, data)
+        return render_template('index.html', data=data, form=form, map_url=url_for('static', filename='map.png'), map_path=map_path)
 @app.route('/weather', methods=['GET'])
 def get_weather_data():
     return jsonify(get_all_weather_data())
@@ -82,13 +86,13 @@ def get_weather_data():
 def fetch_weather_data():
     """Function to fetch weather data from an API and store it in the database."""
     min_lat = 41
-    lat_increases = 3
-    min_long = -108
-    long_increases = 3
+    lat_increases = 5
+    min_long = -109
+    long_increases = 7
     units = "imperial"
 
     for i in range (min_lat,min_lat - lat_increases, -1):
-        for j in range (min_long,min_long + long_increases):
+        for j in range (min_long,min_long + long_increases, 1):
             response = requests.get(f'http://api.openweathermap.org/data/2.5/forecast?lat={i}&lon={j}&appid={api_key}&units={units}')
             if response.status_code == 200:
                 data = response.json()
@@ -111,6 +115,7 @@ def get_all_weather_data():
             "lon": weather.lon,
             "temperature": weather.temperature
         } for weather in weather_data]
+    print(results)
     return results
 
 
