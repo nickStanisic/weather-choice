@@ -49,7 +49,6 @@ def index():
         first_weather = Weather.query.first()
         if first_weather:
             timestamp = first_weather.dt
-            print(timestamp, time)
             if timestamp + 10800 < time:
                 db.session.query(Weather).delete()
                 db.session.commit()
