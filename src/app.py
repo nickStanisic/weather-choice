@@ -5,7 +5,7 @@ from src.dataAnalyzer.weather import calculatePoints
 from src.form import DateTimeForm, generate_choices, generate_time_choices
 from src.map import create_map
 from flask_sqlalchemy import SQLAlchemy
-from src.dataCollector import callApi
+from src.dataCollector.callApi import callApi
 import os
 from dotenv import load_dotenv
 from datetime import datetime
